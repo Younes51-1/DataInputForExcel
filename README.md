@@ -3,7 +3,7 @@
 ## Purpose
 This script is specifically designed for the LOG1810 course
 
-## Issue Description
+## Issue
 When using Pandas to save data to an Excel file, there can be formatting issues that affect the appearance of the data.
 
 ## Instructions
