@@ -9,7 +9,6 @@ class ExcelEditorWindow:
         self.df = None
         self.selected_row = None
         self.lab_number = None
-        # Create layout
         main_layout = [
             [sg.Text("Choose an Excel file:")],
             [sg.InputText(key="FILE_PATH"), 
@@ -19,24 +18,6 @@ class ExcelEditorWindow:
         ]
         
         self.table = None
-        # sg.Table(
-        #     values=[],
-        #     headings=[],
-        #     display_row_numbers=True,
-        #     max_col_width=35,
-        #     auto_size_columns=True,
-        #     display_row_numbers=False,
-        #     justification='centre',
-        #     num_rows=10,
-        #     key='-TABLE-',
-        #     row_height=35,
-        #     tooltip="Grades Table",
-        #     enable_events=True,
-        #     expand_x=True,
-        #     expand_y=True,
-        #     enable_click_events=True
-        # )
-        # Create window
         self.window = sg.Window("Excel Input", main_layout)
 
     def run(self):
@@ -87,7 +68,6 @@ class ExcelEditorWindow:
             expand_y=True,
             enable_click_events=True
         )
-    # sg.Text("Grade"), sg.InputText(key="Grade_key")
         layout = [
             [table_window],
             [sg.Text("Matricule"), sg.InputText(key="Search_key", enable_events=True)],
@@ -133,11 +113,8 @@ class ExcelEditorWindow:
         if self.table.df_exists():
             if not self.table.filtered_df.empty:
                 self.table.filtered_df = self.table.df
-            # Modify the code to add the grade to the selected row in the DataFrame
-            # For example, you can update a specific cell in the DataFrame
             last_column_index = self.table.df.shape[1] - 1
             self.table.df.iloc[self.table.df.MATRICULE == row_index, last_column_index] = grade
-            # Update the table to reflect the changes
             self.update_table(search_key)
     
     def save_changes(self):
