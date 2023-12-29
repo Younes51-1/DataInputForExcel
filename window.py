@@ -42,7 +42,7 @@ class ExcelEditorWindow:
         while True:
             event, values = self.window.read()
 
-            if event in (sg.WIN_CLOSED, 'Exit'):
+            if event in (sg.WIN_CLOSED, 'Exit', 'Save'):
                 break
             elif event == "Submit":
                 self.load_file(values["FILE_PATH"], values["LAB"])
@@ -94,7 +94,6 @@ class ExcelEditorWindow:
         ]
         self.window.close()
         self.window = sg.Window("Grades Table", layout, finalize=True)
-        self.window['Save'].bind("<Return>", "_Enter")
         self.window['Search_key'].bind('<Key>', '_update_table')
         self.window['-TABLE-'].bind('<Double-Button-1>', '_get_selected_row')
     
@@ -139,8 +138,15 @@ class ExcelEditorWindow:
             self.table.df.iloc[self.table.df.MATRICULE == row_index, last_column_index] = grade
             # Update the table to reflect the changes
             self.update_table(search_key)
+    
+    def save_changes(self):
+        if self.table.df_exists():
+            old_df = pd.read_excel(self.file_path, engine='openpyxl')
+            self.table.df = pd.merge(old_df, self.table.df, on=self.table.columns_to_keep.remove(self.table.lab_name)) 
+            self.table.df.to_excel(self.file_path, index=False)
             
 
 if __name__ == "__main__":
     editor = ExcelEditorWindow()
     editor.run()
+    editor.save_changes()

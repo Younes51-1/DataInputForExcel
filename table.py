@@ -8,11 +8,11 @@ class Table:
         self.search_column = search_column
         self.lab_number = int(lab_number)
         self.df =  pd.read_excel(self.path, engine='openpyxl')   
-        lab_name = f'TP{lab_number}'
-        columns_to_keep = ['MATRICULE', 'Nom de famille', 'Prénom', lab_name]
-        if lab_name not in self.df.columns:
-                self.df[lab_name] = 0
-        self.df = self.df[columns_to_keep]
+        self.lab_name = f'TP{lab_number}'
+        self.columns_to_keep = ['MATRICULE', 'Nom de famille', 'Prénom',  self.lab_name]
+        if  self.lab_name not in self.df.columns:
+                self.df[ self.lab_name] = 0
+        self.df = self.df[ self.columns_to_keep]
         self.filtered_df = self.df
     
     
