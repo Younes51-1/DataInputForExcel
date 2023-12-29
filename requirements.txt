@@ -1,0 +1,4 @@
+pandas
+PySimpleGUI
+numpy
+pyinstaller
