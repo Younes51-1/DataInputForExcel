@@ -24,14 +24,14 @@ class ExcelEditorWindow:
         while True:
             event, values = self.window.read()
 
-            if event in (sg.WIN_CLOSED, 'Exit', 'Save'):
-                break
-            elif event == "Submit":
+            if event == "Submit":
                 self.load_file(values["FILE_PATH"], values["LAB"])
             elif event == 'Search_key_update_table':
                 self.update_table(values["Search_key"])
             elif event == "-TABLE-_get_selected_row":
                 self.get_selected_row(values['-TABLE-'][0], values["Search_key"])
+            elif event in (sg.WIN_CLOSED, 'Exit', 'Save'):
+                break
 
         self.window.close()
 
@@ -101,12 +101,12 @@ class ExcelEditorWindow:
             while True:
                 popup_event, popup_values = popup_window.read()
 
-                if popup_event in (sg.WIN_CLOSED, 'Cancel'):
-                    break
-                elif popup_event == 'OK':
+                if popup_event == 'OK':
                     grade = popup_values['grade']
                     self.add_grade_to_row(selected_row_data[0], grade, search_key)
                     sg.popup_ok(f"Entered Grade: {grade}")
+                    break
+                elif popup_event in (sg.WIN_CLOSED, 'Cancel'):
                     break
 
             popup_window.close()
