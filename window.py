@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import pandas as pd
 import os
 from table import Table
+
 class ExcelEditorWindow:
     def __init__(self):
         self.file_path = None
