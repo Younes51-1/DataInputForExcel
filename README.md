@@ -16,7 +16,8 @@ When using Pandas to save data to an Excel file, there can be formatting issues 
     ```
 
     The `requirements.txt` file includes project-specific dependencies such as Pandas, PySimpleGUI, and NumPy.
-
+2. **Run directly window.py file.**
+    ### OR:
 2. **Convert to Executable:**
     Use PyInstaller to convert the script to an executable. Run the following command:
 
