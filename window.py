@@ -5,10 +5,7 @@ from table import Table
 
 class ExcelEditorWindow:
     def __init__(self):
-        self.file_path = None
         self.df = None
-        self.selected_row = None
-        self.lab_number = None
         main_layout = [
             [sg.Text("Choose an Excel file:")],
             [sg.InputText(key="FILE_PATH"), 
@@ -16,7 +13,6 @@ class ExcelEditorWindow:
             [sg.Text("Which lab:"), sg.InputText(key="LAB", size=(10, 10))],
             [sg.Exit(), sg.Push(), sg.Button("Submit")]
         ]
-        
         self.table = None
         self.window = sg.Window("Excel Input", main_layout)
 
@@ -37,9 +33,7 @@ class ExcelEditorWindow:
 
     def load_file(self, path, lab_number):
         if path and lab_number.isdigit():
-            self.file_path = path
-            self.lab_number = int(lab_number)
-            self.create_table(self.lab_number)
+            self.create_table(path, lab_number)
         elif not lab_number.isdigit() and not path:
             sg.popup_error("Please enter a valid lab number and file path.")
         elif not path:
@@ -50,8 +44,8 @@ class ExcelEditorWindow:
             sg.popup_error("Unknown error.")
             
 
-    def create_table(self, lab_number):
-        self.table = Table(self.file_path, "MATRICULE", lab_number)
+    def create_table(self, path, lab_number):
+        self.table = Table(path, "MATRICULE", lab_number)
         table_window = sg.Table(
             values=self.table.data(),
             headings=self.table.headings(),
@@ -109,19 +103,14 @@ class ExcelEditorWindow:
 
             popup_window.close()
 
-    def add_grade_to_row(self, row_index, grade, search_key):
+    def add_grade_to_row(self, row_key, grade, search_key):
         if self.table.df_exists():
-            if not self.table.filtered_df.empty:
-                self.table.filtered_df = self.table.df
-            last_column_index = self.table.df.shape[1] - 1
-            self.table.df.iloc[self.table.df.MATRICULE == row_index, last_column_index] = grade
+            self.table.update_df(row_key, grade)
             self.update_table(search_key)
     
     def save_changes(self):
         if self.table.df_exists():
-            old_df = pd.read_excel(self.file_path, engine='openpyxl')
-            self.table.df = pd.merge(old_df, self.table.df, on=self.table.columns_to_keep.remove(self.table.lab_name)) 
-            self.table.df.to_excel(self.file_path, index=False)
+            self.table.save_changes()
             
 
 if __name__ == "__main__":

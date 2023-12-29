@@ -1,3 +1,4 @@
 pandas
 PySimpleGUI
 numpy
+pyinstaller
