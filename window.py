@@ -131,12 +131,12 @@ class ExcelEditorWindow:
 
     def add_grade_to_row(self, row_index, grade, search_key):
         if self.table.df_exists():
-            if not self.table.filtered_df:
+            if not self.table.filtered_df.empty:
                 self.table.filtered_df = self.table.df
             # Modify the code to add the grade to the selected row in the DataFrame
             # For example, you can update a specific cell in the DataFrame
             last_column_index = self.table.df.shape[1] - 1
-            self.table.df[self.table.df["MATRICULE"] == row_index][last_column_index] = grade
+            self.table.df.iloc[self.table.df.MATRICULE == row_index, last_column_index] = grade
             # Update the table to reflect the changes
             self.update_table(search_key)
             
