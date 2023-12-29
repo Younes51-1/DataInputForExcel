@@ -106,7 +106,7 @@ class ExcelEditorWindow:
                     self.add_grade_to_row(selected_row_data[0], grade, search_key)
                     sg.popup_ok(f"Entered Grade: {grade}")
                     break
-                elif popup_event in (sg.WIN_CLOSED, 'Cancel'):
+                if popup_event in (sg.WIN_CLOSED, 'Cancel'):
                     break
 
             popup_window.close()
